@@ -42,15 +42,14 @@ class LambdaLayersStack(Stack):
         dependencies of the Lambda Functions.
         """
 
-        # Layer for "yfinance" Adapter libraries
-        self.lambda_layer_yfinance = aws_lambda.LayerVersion(
+        # Layer for "yfinance" Python3.12 libraries
+        self.lambda_layer_yfinance_py_3_12 = aws_lambda.LayerVersion(
             self,
-            "LambdaLayer-yfinance",
+            "LambdaLayer-yfinance-3-12",
             layer_version_name=self.main_resources_name,
-            description="Lambda Layer for Python with <yfinance> library",
+            description="Lambda Layer for Python3.12 with <yfinance> library",
             code=aws_lambda.Code.from_asset("lambda-layers/yfinance/modules"),
             compatible_runtimes=[
-                aws_lambda.Runtime.PYTHON_3_11,
                 aws_lambda.Runtime.PYTHON_3_12,
             ],
             compatible_architectures=[aws_lambda.Architecture.X86_64],
@@ -58,8 +57,8 @@ class LambdaLayersStack(Stack):
             removal_policy=RemovalPolicy.RETAIN,
         )
 
-        self.lambda_layer_yfinance.add_permission(
-            "LambdaLayer-yfinance-permissions",
+        self.lambda_layer_yfinance_py_3_12.add_permission(
+            "LambdaLayer-yfinance-3-12-permissions",
             account_id="*",
         )
 
@@ -71,6 +70,6 @@ class LambdaLayersStack(Stack):
         CfnOutput(
             self,
             "YFINANCELambdaLayerLatestArn",
-            value=self.lambda_layer_yfinance.layer_version_arn,
+            value=self.lambda_layer_yfinance_py_3_12.layer_version_arn,
             description="Yfinance Lambda Layer ARN",
         )
