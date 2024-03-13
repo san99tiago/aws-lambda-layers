@@ -58,6 +58,11 @@ class LambdaLayersStack(Stack):
             removal_policy=RemovalPolicy.RETAIN,
         )
 
+        self.lambda_layer_yfinance.add_permission(
+            "LambdaLayer-yfinance-permissions",
+            account_id="*",
+        )
+
     def generate_cloudformation_outputs(self):
         """
         Method to add the relevant CloudFormation outputs.
