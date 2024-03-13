@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "aws-lambda-layers"
+version = "0.0.1"
+description = "Public AWS Lambda Layers for different common use cases and libraries"
+authors = ["Santiago Garcia Arango <san99tiago@gmail.com>"]
+license = "Apache"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+aws-cdk-lib = "2.130.0"
+constructs = ">=10.0.0,<11.0.0"
+
+[tool.poetry.group.dev.dependencies]
+poethepoet = "^0.24.0"
+pytest = "^7.4.4"
+pytest-mock = "^3.12.0"
+coverage = "^7.4.0"
+black = "^23.12.1"
+
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+pythonpath = ["cdk"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poe.tasks]
+test-unit = ["_make", "_test_unit", "_coverage_html"]
+test-unit-cdk = ["_make", "_test_unit_cdk", "_coverage_html"]
+black-format = "black ."
+black-check = "black . --check --diff -v"
+_make = "make install"
+_test_unit = "coverage run -m pytest tests/unit"
+_test_unit_cdk = "coverage run -m pytest tests/unit/cdk"
+_coverage_html = "coverage html"
+
+[tool.coverage.run]
+branch = true
+source = ["cdk"]
+omit = ["**/__init__.py"]
+
+[tool.coverage.report]
+show_missing = false
