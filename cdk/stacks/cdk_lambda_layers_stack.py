@@ -46,7 +46,7 @@ class LambdaLayersStack(Stack):
         self.lambda_layer_yfinance_py_3_12 = aws_lambda.LayerVersion(
             self,
             "LambdaLayer-yfinance-3-12",
-            layer_version_name=self.main_resources_name,
+            layer_version_name="python3-12-yfinance",
             description="Lambda Layer for Python3.12 with <yfinance> library",
             code=aws_lambda.Code.from_asset("lambda-layers/yfinance/modules"),
             compatible_runtimes=[
